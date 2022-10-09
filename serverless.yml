@@ -10,7 +10,7 @@ provider:
   runtime: provided
   region: ap-northeast-1
   stage: ${opt:stage, self:custom.defaultStage}
-  deploymentBucket: mangum-test-xxxx #
+  deploymentBucket: arn:aws:s3:::lambda-deploy-demo-221009
   ecr:
     images:
       app:
