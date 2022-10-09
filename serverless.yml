@@ -1,25 +1,16 @@
-service: lambda-dart-sls
-
-custom:
-  defaultStage: dev
-
-frameworkVersion: '3'
+# ref:https://qiita.com/yktakaha4/items/ead117870617f45c70d5
+service: mangum-test2
 
 provider:
   name: aws
-  runtime: provided
+  stage: prod
   region: ap-northeast-3
-  stage: ${opt:stage, self:custom.defaultStage}
-  deploymentBucket: lambda-deploy-demo-221009
-  ecr:
-    images:
-      app:
-        path: ./
+  deploymentBucket: 
+  logRetentionInDays: 30
 
 functions:
-  main:
-    image:
-      name: app
+  index:
+    image: ""
     events:
       - http:
           integration: lambda-proxy
