@@ -5,9 +5,6 @@ custom:
 
 frameworkVersion: '3'
 
-plugins:
-  - serverless-python-requirements
-
 provider:
   name: aws
   runtime: provided
