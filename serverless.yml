@@ -1,0 +1,25 @@
+service: lambda-dart-sls
+
+custom:
+  defaultStage: dev
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: provided
+  region: ap-northeast-1
+  stage: ${opt:stage, self:custom.defaultStage}
+  ecr:
+    images:
+      app:
+        path: ./
+
+functions:
+  main:
+    image:
+      name: app
+    events:
+      - http:
+          path: test
+          method: get
