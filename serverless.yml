@@ -1,0 +1,19 @@
+# ref:https://qiita.com/yktakaha4/items/ead117870617f45c70d5
+service: mangum-test2
+
+provider:
+  name: aws
+  stage: prod
+  region: ap-northeast-3
+  deploymentBucket: 
+  logRetentionInDays: 30
+
+functions:
+  index:
+    image: ""
+    events:
+      - http:
+          integration: lambda-proxy
+          path: /{proxy+}
+          method: ANY
+          cors: true
