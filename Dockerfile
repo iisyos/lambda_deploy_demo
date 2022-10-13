@@ -12,4 +12,4 @@ COPY requirements.txt /
 RUN chmod 755 /usr/bin/aws-lambda-rie /entry.sh
 RUN pip install -r requirements.txt
 ENTRYPOINT [ "/entry.sh" ]
-CMD [ "app.handler" ]
+CMD [ "src/app.handler" ]
