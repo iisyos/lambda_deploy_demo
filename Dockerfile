@@ -1,16 +1,19 @@
 ARG FUNCTION_DIR="/home/app/"
+ARG RUNTIME_VERSION="3.8"
 
-FROM python:3.8-buster
+FROM python:${RUNTIME_VERSION}-buster
 RUN pip install awslambdaric
 
 
 ARG FUNCTION_DIR
 WORKDIR ${FUNCTION_DIR}
+COPY . ${FUNCTION_DIR}
+RUN python${RUNTIME_VERSION} -m pip install awslambdaric --target ${FUNCTION_DIR}
+
 ADD https://github.com/aws/aws-lambda-runtime-interface-emulator/releases/latest/download/aws-lambda-rie /usr/bin/aws-lambda-rie
 COPY entry.sh /
 COPY requirements.txt /
-COPY . ${FUNCTION_DIR}
 RUN chmod 755 /usr/bin/aws-lambda-rie /entry.sh
 RUN pip install -r /requirements.txt
 ENTRYPOINT [ "/entry.sh" ]
-CMD [ "app/app.handler" ]
+CMD [ "src/app.handler" ]
