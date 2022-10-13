@@ -3,7 +3,7 @@ ARG FUNCTION_DIR="/home/app/"
 
 RUN pip install awslambdaric
 
-COPY src/* ${FUNCTION_DIR}
+COPY . ${FUNCTION_DIR}
 ARG FUNCTION_DIR
 WORKDIR ${FUNCTION_DIR}
 ADD https://github.com/aws/aws-lambda-runtime-interface-emulator/releases/latest/download/aws-lambda-rie /usr/bin/aws-lambda-rie
