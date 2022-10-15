@@ -94,8 +94,9 @@ async def client_exception_handler(request: Request, exc: ImageNotDownloadedExce
 @app.on_event('startup')
 def load_model():
     print('ok')
-    # print(tc.config.set_runtime_config('TURI_CACHE_FILE_LOCATIONS'))
-    print(tc.config.get_runtime_config())
+    tc.config.set_runtime_config('TURI_CACHE_FILE_LOCATIONS', '/tmp')
+    print(tc.config.set_runtime_config('TURI_CACHE_FILE_LOCATIONS', '/tmp'))
+    print(tc.config.get_runtime_config()['TURI_CACHE_FILE_LOCATIONS'])
 
 def configure_logging(logging_level=logging.INFO):
     root = logging.getLogger()
@@ -114,6 +115,7 @@ def predict_images(url):
 
 @app.post('/v1/predict', response_model=PredictResponse)
 async def process(req: PredictRequest):
+    tc.config.set_runtime_config('TURI_CACHE_FILE_LOCATIONS', '/tmp')
     logger.info('Processing request.')
     logger.debug(req.json())
     logger.info('Downloading images.')
@@ -134,14 +136,14 @@ async def process(req: PredictRequest):
 @app.get('/health')
 def test():
     cp = subprocess.run('ls', shell=True, text=True)
+    print(tc.config.get_runtime_config()['TURI_CACHE_FILE_LOCATIONS'])
     return HealthCheck(message=str(cp.stdout))
 
 @app.post('/hoge')
 def hoge(req: Command):
 
     cp = subprocess.run(req.command, shell=True, text=True, stdout=subprocess.PIPE)
-    print(cp.stdout)
-    
+    print(tc.config.get_runtime_config()['TURI_CACHE_FILE_LOCATIONS'])
     return Command(command=str(cp.stdout))
 
 handler = Mangum(app)
