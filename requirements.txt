@@ -9,3 +9,16 @@ uvloop
 gunicorn
 aiofiles
 turicreate
+
+
+numpy
+pandas
+lightgbm
+
+beautifulsoup4
+requests
+turicreate
+
+bs4
+google-search-results
+lxml

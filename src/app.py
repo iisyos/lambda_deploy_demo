@@ -57,6 +57,8 @@ class PredictResponse(BaseModel):
     Represents a request to process
     """
     predictions: Optional[str] = None
+    code: Optional[str] = None
+    message: Optional[str] = None
 
 
 app = FastAPI()
@@ -197,9 +199,18 @@ async def process(req: PredictRequest):
     logger.info('Processing request.')
     logger.debug(req.json())
     logger.info('Downloading images.')
-    result = predict_images(req.url)
+    result = ""
+    code = ""
+    message = ""
+    try:
+        result = predict_images(req.url)
+        code = 'ok'
+    except Exception as e:
+        m = e
+        code = 'fail'
+
     logger.info('Transaction complete.')
-    return PredictResponse(predictions = result)
+    return PredictResponse(predictions = result, code=code,message=message)
 
 
 @app.get('/health')
