@@ -1,1 +1,3 @@
-.serverless/
+.serverless
+/src/PetImages
+/src/cats-dogs*

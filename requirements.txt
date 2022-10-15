@@ -2,10 +2,10 @@ fastapi
 uvicorn
 mangum
 Pillow
-tensorflow
 numpy
 pydantic
 aiohttp
 uvloop
 gunicorn
 aiofiles
+turicreate
