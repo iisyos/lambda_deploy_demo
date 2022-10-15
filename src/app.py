@@ -82,21 +82,21 @@ async def client_exception_handler(request: Request, exc: ImageNotDownloadedExce
     return JSONResponse(status_code=400, content={'message': 'One or more images could not be downloaded.'})
 
 
-@app.on_event('startup')
-def load_model():
-    print('start')
-    # Load images (Note:'Not a JPEG file' errors are warnings, meaning those files will be skipped)
-    data = tc.image_analysis.load_images('PetImages', with_path=True)
+# @app.on_event('startup')
+# def load_model():
+#     print('start')
+    # # Load images (Note:'Not a JPEG file' errors are warnings, meaning those files will be skipped)
+    # data = tc.image_analysis.load_images('PetImages', with_path=True)
 
-    # From the path-name, create a label column
-    data['label'] = data['path'].apply(lambda file_name: 'dog' if 'dog' in file_name else 'cat')
+    # # From the path-name, create a label column
+    # data['label'] = data['path'].apply(lambda file_name: 'dog' if 'dog' in file_name else 'cat')
     
-    data.print_rows(num_rows=60)
-    # Save the data for future use
-    data.save('cats-dogs.sframe')
+    # data.print_rows(num_rows=60)
+    # # Save the data for future use
+    # data.save('cats-dogs.sframe')
     
-    model = tc.image_classifier.create(data, target='label')
-    model.save('cats-dogs.model')
+    # model = tc.image_classifier.create(data, target='label')
+    # model.save('cats-dogs.model')
 
 
 
