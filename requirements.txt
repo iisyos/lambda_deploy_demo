@@ -1,3 +1,11 @@
 fastapi
 uvicorn
 mangum
+Pillow
+numpy
+pydantic
+aiohttp
+uvloop
+gunicorn
+aiofiles
+turicreate
