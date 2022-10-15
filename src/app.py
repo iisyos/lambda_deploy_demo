@@ -206,7 +206,7 @@ async def process(req: PredictRequest):
         result = predict_images(req.url)
         code = 'ok'
     except Exception as e:
-        m = e
+        message = repr(e)
         code = 'fail'
 
     logger.info('Transaction complete.')
