@@ -4,7 +4,6 @@ ARG RUNTIME_VERSION="3.8"
 FROM python:${RUNTIME_VERSION}-buster
 RUN pip install awslambdaric
 
-
 ARG FUNCTION_DIR
 WORKDIR ${FUNCTION_DIR}
 COPY . ${FUNCTION_DIR}

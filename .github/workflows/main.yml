@@ -27,7 +27,4 @@ jobs:
         aws-region: ap-northeast-3
     
     - name: deploy
-      if: github.ref == 'refs/heads/main'
       run: sls deploy --stage main
-      if: github.ref != 'refs/heads/main'
-      run: sls deploy --stage dev
