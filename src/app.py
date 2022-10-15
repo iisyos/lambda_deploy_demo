@@ -94,7 +94,8 @@ async def client_exception_handler(request: Request, exc: ImageNotDownloadedExce
 @app.on_event('startup')
 def load_model():
     print('ok')
-    tc.config.set_runtime_config('TURI_CACHE_FILE_LOCATIONS', './cache')
+    # print(tc.config.set_runtime_config('TURI_CACHE_FILE_LOCATIONS'))
+    print(tc.config.get_runtime_config())
 
 def configure_logging(logging_level=logging.INFO):
     root = logging.getLogger()
@@ -106,7 +107,7 @@ def configure_logging(logging_level=logging.INFO):
     root.addHandler(stream_handler)
 
 def predict_images(url):
-    loaded_model = tc.load_model('cats-dogs.model')
+    loaded_model = tc.load_model('src/cats-dogs.model')
     data = tc.image_analysis.load_images(url)
     return loaded_model.predict(data)[0]
 
