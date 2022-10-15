@@ -83,28 +83,20 @@ class ImageNotDownloadedException(Exception):
 
 @app.exception_handler(Exception)
 async def unknown_exception_handler(request: Request, exc: Exception):
-    """
-    Catch-all for all other errors.
-    """
     return JSONResponse(status_code=500, content={'message': 'Internal error.'})
 
 
 @app.exception_handler(ImageNotDownloadedException)
 async def client_exception_handler(request: Request, exc: ImageNotDownloadedException):
-    """
-    Called when the image could not be downloaded.
-    """
     return JSONResponse(status_code=400, content={'message': 'One or more images could not be downloaded.'})
 
 
 @app.on_event('startup')
 def load_model():
-    print('start')
+    print('ok')
+    tc.config.set_runtime_config('TURI_CACHE_FILE_LOCATIONS', './cache')
 
 def configure_logging(logging_level=logging.INFO):
-    """
-    Configures logging for the application.
-    """
     root = logging.getLogger()
     root.handlers.clear()
     stream_handler = logging.StreamHandler(stream=sys.stdout)
@@ -114,14 +106,7 @@ def configure_logging(logging_level=logging.INFO):
     root.addHandler(stream_handler)
 
 def predict_images(url):
-    """
-    Predicts the image's category and transforms the results into the output format.
-
-    :param images: The Pillow Images to predict.
-
-    :return: The prediction results.
-    """
-    loaded_model = tc.load_model('src/cats-dogs.model')
+    loaded_model = tc.load_model('cats-dogs.model')
     data = tc.image_analysis.load_images(url)
     return loaded_model.predict(data)[0]
 
