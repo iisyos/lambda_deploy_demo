@@ -22,6 +22,7 @@ import numpy as np
 from PIL import Image
 
 from mangum import Mangum
+from sympy import content
 import turicreate as tc
 
 import boto3
@@ -29,15 +30,19 @@ import boto3
 
 logger = logging.getLogger(__name__)
 
+class Envs(BaseModel):
+    """
+    Represents an image to be predicted.
+    """
+    key: Optional[str] = None
+    val: Optional[str] = None
 
 class HealthCheck(BaseModel):
     """
     Represents an image to be predicted.
     """
     message: Optional[str] = 'OK'
-    files: Optional[List[str]] = []
-
-
+    contents: Optional[List[Envs]] = []
 
 class ImageOutput(BaseModel):
     """
@@ -207,12 +212,9 @@ def test():
     """
     Can be called by load balancers as a health check.
     """
-    
-    path = "."
 
-    files = os.listdir(path)
-
-    return HealthCheck(files = files)
+    list = [Envs(key=e,val=os.getenv(e)) for e in os.environ ]
+    return HealthCheck(contents=list)
 
 
 
