@@ -121,7 +121,7 @@ def predict_images(url):
 
     :return: The prediction results.
     """
-    loaded_model = tc.load_model('cats-dogs.model')
+    loaded_model = tc.load_model('src/cats-dogs.model')
     data = tc.image_analysis.load_images(url)
     return loaded_model.predict(data)[0]
 
