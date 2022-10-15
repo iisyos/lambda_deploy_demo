@@ -35,6 +35,7 @@ class HealthCheck(BaseModel):
     Represents an image to be predicted.
     """
     message: Optional[str] = 'OK'
+    files: Optional[List[str]] = []
 
 
 
@@ -89,20 +90,6 @@ async def client_exception_handler(request: Request, exc: ImageNotDownloadedExce
 def load_model():
     print('start')
     # Load images (Note:'Not a JPEG file' errors are warnings, meaning those files will be skipped)
-    try:
-        loaded_model = tc.load_model('./cats-dogs.model')
-    except Exception as e:
-        data = tc.image_analysis.load_images('PetImages', with_path=True)
-
-        # From the path-name, create a label column
-        data['label'] = data['path'].apply(lambda file_name: 'dog' if 'dog' in file_name else 'cat')
-        
-        data.print_rows(num_rows=60)
-        # Save the data for future use
-        data.save('cats-dogs.sframe')
-        
-        model = tc.image_classifier.create(data, target='label')
-        model.save('cats-dogs.model')
 
 def configure_logging(logging_level=logging.INFO):
     """
@@ -220,7 +207,13 @@ def test():
     """
     Can be called by load balancers as a health check.
     """
-    return HealthCheck()
+    
+    path = "."
+
+    files = os.listdir(path)
+
+    return HealthCheck(files = files)
+
 
 
 handler = Mangum(app)
