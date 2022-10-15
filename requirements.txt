@@ -9,7 +9,7 @@ uvloop
 gunicorn
 aiofiles
 turicreate
-
+boto3
 
 numpy
 pandas

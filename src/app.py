@@ -24,6 +24,7 @@ from PIL import Image
 from mangum import Mangum
 import turicreate as tc
 
+import boto3
 
 
 logger = logging.getLogger(__name__)
@@ -84,23 +85,24 @@ async def client_exception_handler(request: Request, exc: ImageNotDownloadedExce
     return JSONResponse(status_code=400, content={'message': 'One or more images could not be downloaded.'})
 
 
-# @app.on_event('startup')
-# def load_model():
-#     print('start')
-    # # Load images (Note:'Not a JPEG file' errors are warnings, meaning those files will be skipped)
-    # data = tc.image_analysis.load_images('PetImages', with_path=True)
+@app.on_event('startup')
+def load_model():
+    print('start')
+    # Load images (Note:'Not a JPEG file' errors are warnings, meaning those files will be skipped)
+    try:
+        loaded_model = tc.load_model('./cats-dogs.model')
+    except Exception as e:
+        data = tc.image_analysis.load_images('PetImages', with_path=True)
 
-    # # From the path-name, create a label column
-    # data['label'] = data['path'].apply(lambda file_name: 'dog' if 'dog' in file_name else 'cat')
-    
-    # data.print_rows(num_rows=60)
-    # # Save the data for future use
-    # data.save('cats-dogs.sframe')
-    
-    # model = tc.image_classifier.create(data, target='label')
-    # model.save('cats-dogs.model')
-
-
+        # From the path-name, create a label column
+        data['label'] = data['path'].apply(lambda file_name: 'dog' if 'dog' in file_name else 'cat')
+        
+        data.print_rows(num_rows=60)
+        # Save the data for future use
+        data.save('cats-dogs.sframe')
+        
+        model = tc.image_classifier.create(data, target='label')
+        model.save('cats-dogs.model')
 
 def configure_logging(logging_level=logging.INFO):
     """
@@ -181,7 +183,7 @@ def predict_images(url):
 
     :return: The prediction results.
     """
-    loaded_model = tc.load_model('cats-dogs.model')
+    loaded_model = tc.load_model('./cats-dogs.model')
     data = tc.image_analysis.load_images(url)
     return loaded_model.predict(data)[0]
 
