@@ -5,7 +5,6 @@ import re
 def createFrame():
     data = tc.image_analysis.load_images('src/data/', with_path=True)
     data['label'] = data['path'].apply(path2label)
-    print(data)
     data.save('src/z-fighters.sframe')
 
 
