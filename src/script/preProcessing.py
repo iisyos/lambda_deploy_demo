@@ -3,6 +3,7 @@ import glob
 import os
 import re
 
+
 class PreProcessing:
     IMG_RELATIVE_DIR = '../data/train/**/*'
     DST_DIR = '../data/train/'
@@ -17,7 +18,7 @@ class PreProcessing:
     def crop_max_square(self, pil_img):
         return self.crop_center(pil_img, min(pil_img.size), min(pil_img.size))
 
-    def execute_crop_resize (self):
+    def execute_crop_resize(self):
         files = glob.glob(self.IMG_RELATIVE_DIR)
 
         for f in files:
@@ -27,6 +28,7 @@ class PreProcessing:
                 root, ext = os.path.splitext(f)
                 base_name = os.path.basename(root)
                 dir_name = re.sub(r'\d', "", base_name)
-                img_resize.save(os.path.join(self.DST_DIR + dir_name, base_name + ext))
+                img_resize.save(os.path.join(
+                    self.DST_DIR + dir_name, base_name + ext))
             except OSError as e:
                 pass
