@@ -9,3 +9,11 @@ uvloop
 gunicorn
 aiofiles
 turicreate
+boto3
+beautifulsoup4
+requests
+bs4
+google-search-results
+lxml
+joblib
+python-dotenv
