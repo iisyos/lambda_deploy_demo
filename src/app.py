@@ -33,42 +33,24 @@ import joblib
 logger = logging.getLogger(__name__)
 
 class Envs(BaseModel):
-    """
-    Represents an image to be predicted.
-    """
     key: Optional[str] = None
     val: Optional[str] = None
 
 class HealthCheck(BaseModel):
-    """
-    Represents an image to be predicted.
-    """
     message: Optional[str] = 'OK'
 class Command(BaseModel):
-    """
-    Represents an image to be predicted.
-    """
     command: str = 'ls'
 
 class ImageOutput(BaseModel):
-    """
-    Represents the result of a prediction
-    """
     category: Optional[str] = None
     name: Optional[str] = None
 
 
 class PredictRequest(BaseModel):
-    """
-    Represents a request to process
-    """
     url: Optional[str] = None
 
 
 class PredictResponse(BaseModel):
-    """
-    Represents a request to process
-    """
     predictions: Optional[str] = None
     code: Optional[str] = None
     message: Optional[str] = None
@@ -95,8 +77,6 @@ async def client_exception_handler(request: Request, exc: ImageNotDownloadedExce
 def load_model():
     print('ok')
     tc.config.set_runtime_config('TURI_CACHE_FILE_LOCATIONS', '/tmp')
-    print(tc.config.set_runtime_config('TURI_CACHE_FILE_LOCATIONS', '/tmp'))
-    print(tc.config.get_runtime_config()['TURI_CACHE_FILE_LOCATIONS'])
 
 def configure_logging(logging_level=logging.INFO):
     root = logging.getLogger()
@@ -111,7 +91,6 @@ def predict_images(url):
     loaded_model = tc.load_model('src/cats-dogs.model')
     data = tc.image_analysis.load_images(url)
     return loaded_model.predict(data)[0]
-
 
 @app.post('/v1/predict', response_model=PredictResponse)
 async def process(req: PredictRequest):

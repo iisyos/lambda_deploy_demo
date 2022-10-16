@@ -10,15 +10,10 @@ gunicorn
 aiofiles
 turicreate
 boto3
-
-numpy
-pandas
-lightgbm
-
 beautifulsoup4
 requests
-turicreate
-
 bs4
 google-search-results
 lxml
+joblib
+python-dotenv
