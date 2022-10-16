@@ -4,7 +4,7 @@ services:
   lambda_api:
     container_name: "lambda_api"
     volumes:
-      - ./src/:/home/app
+      - ./:/home/app
     build: .
     ports:
       - 8081:8081
