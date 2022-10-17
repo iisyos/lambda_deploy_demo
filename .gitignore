@@ -1,5 +1,2 @@
-.serverless
-# /src/PetImages
-# /src/cats-dogs.sframe
 /src/data
 .env

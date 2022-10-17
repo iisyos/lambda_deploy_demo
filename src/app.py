@@ -5,6 +5,7 @@ import subprocess
 from typing import Optional
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
+from starlette.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, validator
 from mangum import Mangum
 import turicreate as tc
@@ -43,6 +44,13 @@ class PredictResponse(BaseModel):
 
 app = FastAPI()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,   # 追記により追加
+    allow_methods=["*"],      # 追記により追加
+    allow_headers=["*"]       # 追記により追加
+)
 
 class ImageNotDownloadedException(Exception):
     pass
