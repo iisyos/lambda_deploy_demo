@@ -1,4 +1,4 @@
-# lambda_deploy_demo
+# z_fighter_server
 
 
 [z_fighter](https://github.com/iisyos/z_fighter) のためのバックエンドです。
@@ -34,7 +34,7 @@ $ docker-comopose up -d --build
 2.学習データの収集
 
 ```zsh
-$ docker-comopose exec lambda_demo /bin/zsh
+$ docker-comopose exec lambda_api /bin/zsh
 $ python src/script/zFIghtersImageCollector.py
 ```
 
