@@ -59,7 +59,5 @@ $ curl -X 'POST' \
   -d '{
   "url": "url"
 }'
-
-
-
+```
 
