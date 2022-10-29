@@ -2,7 +2,7 @@
 
 
 [z_fighter](https://github.com/iisyos/z_fighter) のためのバックエンドです。
-主に画像urlを受け取り、機械学習の結果を返します。
+画像urlを受け取り、機械学習の結果を返します。
 
 
 ## 使用パッケージ
